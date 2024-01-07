@@ -3,14 +3,21 @@
  * This routes are not protected by the auth guard
  * @type {string[]}
  */
-export const publicRoutes = ["/", "/auth/new-verification"];
+export const publicRoutes = ["/"];
 
 /**
  * @description Auth routes
  * This routes are protected by the auth guard
  * @type {string[]}
  */
-export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
+export const authRoutes = [
+  "/auth/new-verification",
+  "/auth/new-password",
+  "/auth/register",
+  "/auth/login",
+  "/auth/error",
+  "/auth/reset",
+];
 
 /**
  * @description The prefix for API authentication routes
