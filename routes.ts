@@ -3,7 +3,7 @@
  * This routes are not protected by the auth guard
  * @type {string[]}
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/", "/auth/new-verification"];
 
 /**
  * @description Auth routes
