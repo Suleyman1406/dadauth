@@ -18,8 +18,6 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      console.log("oldu?", user);
-
       await db.user.update({
         where: { id: user.id },
         data: {
@@ -29,18 +27,18 @@ export const {
     },
   },
   callbacks: {
-    async signIn({ user }) {
-      // const existingUser = await getUserById(user.id);
+    async signIn({ user, account }) {
+      // If the user is signing in with a provider other than credentials, allow sign in
+      if (account?.provider !== "credentials") return true;
 
-      // if (!existingUser || !existingUser.emailVerified) {
-      //   return false;
-      // }
+      const existingUser = await getUserById(user.id);
+
+      // If the user doesn't exist, or the user's email isn't verified, don't allow sign in
+      if (!existingUser?.emailVerified) return false;
+
       return true;
     },
     async session({ token, session }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
       if (token.user && session.user) {
         session.user.role = token.role as UserRole;
       }
