@@ -32,7 +32,7 @@ export const LoginForm = () => {
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email already in use with another social account."
+      ? "Email already in use with another account provider."
       : "";
 
   const form = useForm<z.infer<typeof LoginSchema>>({
