@@ -54,9 +54,21 @@ export const {
       return true;
     },
     async session({ token, session }) {
-      if (token.user && session.user) {
+      if (!session.user) return session;
+
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.isOAuth = token.isOAuth as boolean;
+      session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+
+      if (token.role) {
         session.user.role = token.role as UserRole;
       }
+
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -64,6 +76,7 @@ export const {
         const user = await getUserById(token.sub);
         if (user) {
           token.role = user.role;
+          token.isTwoFactorEnabled = user.isTwoFactorEnabled;
         }
       }
       return token;
