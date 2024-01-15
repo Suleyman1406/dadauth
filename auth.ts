@@ -6,6 +6,7 @@ import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation
 import { getUserById } from "@/data/user";
 import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
+import { getAccount } from "./data/account";
 
 export const {
   handlers: { GET, POST },
@@ -75,7 +76,12 @@ export const {
       if (token?.sub) {
         const user = await getUserById(token.sub);
         if (user) {
+          const existingAccount = await getAccount(user.id);
+
           token.role = user.role;
+          token.name = user.name;
+          token.email = user.email;
+          token.isOAuth = !!existingAccount;
           token.isTwoFactorEnabled = user.isTwoFactorEnabled;
         }
       }
